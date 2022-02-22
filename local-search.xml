@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>模型落地</title>
+    <link href="/2022/02/22/%E6%A8%A1%E5%9E%8B%E8%90%BD%E5%9C%B0/"/>
+    <url>/2022/02/22/%E6%A8%A1%E5%9E%8B%E8%90%BD%E5%9C%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Pytorch-模型落地"><a href="#Pytorch-模型落地" class="headerlink" title="Pytorch 模型落地"></a>Pytorch 模型落地</h1><h2 id="Tensorrt-模型构建方案"><a href="#Tensorrt-模型构建方案" class="headerlink" title="Tensorrt 模型构建方案"></a>Tensorrt 模型构建方案</h2><ul><li><a href="https://github.com/search?q=tensorrt">Tensorrt</a>: Nvidia 提供的 C++ 语言的深度学习模型推理方案，模型实现难度大。</li><li><a href="https://github.com/wang-xinyu/tensorrtx">TensorrtX</a>: 基于 tensorrt, 使用 C++ 硬代码实现了经典视觉模型，应用方便但扩展性极低。</li><li><a href="https://github.com/NVIDIA-AI-IOT/torch2trt">Torch2Trt</a>: Nvidia 公司 IOT 部门开源方案，提供 Python 端的操作实现方案，应用方便但无法跨硬件加速设备。</li><li><a href="https://github.com/shouxieai/tensorRT_Pro">TensorRt_Pro</a>: 基于 ONNX 路线，提供了 C++、Python 接口，但目前 ONNX 并无法支持 Pytorch 的全部操作。</li></ul><h2 id="ONNX-模型转换指导"><a href="#ONNX-模型转换指导" class="headerlink" title="ONNX 模型转换指导"></a>ONNX 模型转换指导</h2><ol><li>对于包含 shape、size 返回值的参数， 必须使用 int 进行规格化。</li><li>对于 Upsample, functional.interpolate 函数，使用 scale_factor 指定倍率而非使用 size 指定大小。</li><li>对于 reshape、view 等操作，-1 的指定设置在 batch 维度，其他维度计算得出。</li><li>使用 torch.onnx.export 函数时，dynamic_axes 参数指南指定 batch 维度。</li></ol><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>模型部署</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>tensorrt</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Python 日志处理</title>
     <link href="/2022/02/20/loguru%E5%BA%93/"/>
     <url>/2022/02/20/loguru%E5%BA%93/</url>
