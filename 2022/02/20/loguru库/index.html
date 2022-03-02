@@ -24,7 +24,7 @@
 <meta property="og:description" content="Python 语言更优雅的日志处理模块。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-20T11:04:08.000Z">
-<meta property="article:modified_time" content="2022-02-21T07:50:39.002Z">
+<meta property="article:modified_time" content="2022-03-02T13:07:22.881Z">
 <meta property="article:author" content="zhanghr">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -42,7 +42,15 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+      
+        
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+      
     
   
 
@@ -202,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      822 字
+      700 字
     </span>
   
 
@@ -211,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      6 分钟
     </span>
   
 
@@ -251,9 +259,27 @@
             <h1 style="display: none">Python 日志处理</h1>
             
             <div class="markdown-body">
-              <h1 id="Python-日志处理-Loguru-库"><a href="#Python-日志处理-Loguru-库" class="headerlink" title="Python 日志处理: Loguru 库"></a>Python 日志处理: Loguru 库</h1><h2 id="日志写入"><a href="#日志写入" class="headerlink" title="日志写入"></a>日志写入</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> <span class="hljs-type">Path</span><br><br>logger_formate = &quot;&#123;time&#125; - &#123;level&#125; - &#123;file&#125; - &#123;line&#125; - &#123;message&#125;&quot;<br>logger.<span class="hljs-keyword">add</span>(Path(&quot;logpath.log&quot;), formate = logger_formate)<br><br>logger.<span class="hljs-keyword">debug</span>(&quot;debug message&quot;)<br>logger.<span class="hljs-keyword">info</span>(&quot;info level message&quot;)<br>logger.<span class="hljs-built_in">warning</span>(&quot;warning level message&quot;)<br>logger.critical(&quot;critical level message&quot;)<br></code></pre></td></tr></table></figure>
+              <h1 id="Python-日志处理-Loguru-库"><a href="#Python-日志处理-Loguru-库" class="headerlink" title="Python 日志处理: Loguru 库"></a>Python 日志处理: Loguru 库</h1><h2 id="日志写入"><a href="#日志写入" class="headerlink" title="日志写入"></a>日志写入</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> loguru <span class="token keyword">import</span> logger
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
 
-<h2 id="分类处理"><a href="#分类处理" class="headerlink" title="分类处理"></a>分类处理</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> <span class="hljs-type">Path</span><br><br>log_dir = Path(&quot;./&quot;)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> log_dir.<span class="hljs-keyword">exists</span>():<br>    log_dir.mkdir(<span class="hljs-keyword">True</span>)<br>    <br>log_format = &quot;&#123;time:YYYY-MM-DD HH:mm:ss&#125; - &#123;level:8&#125;- &#123;file:10&#125; - &#123;line:5&#125; - &#123;message&#125;&quot;<br>logger.<span class="hljs-keyword">add</span>(<span class="hljs-type">Path</span>.joinpath(log_dir, Path(&quot;&#123;time:YYYY-MM-DD&#125;.log&quot;)), <span class="hljs-keyword">format</span> = log_format, rotation=&quot;3 day&quot;)<br><br></code></pre></td></tr></table></figure>
+logger_formate <span class="token operator">=</span> <span class="token string">"&#123;time&#125; - &#123;level&#125; - &#123;file&#125; - &#123;line&#125; - &#123;message&#125;"</span>
+logger<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Path<span class="token punctuation">(</span><span class="token string">"logpath.log"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> formate <span class="token operator">=</span> logger_formate<span class="token punctuation">)</span>
+
+logger<span class="token punctuation">.</span>debug<span class="token punctuation">(</span><span class="token string">"debug message"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"info level message"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string">"warning level message"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>critical<span class="token punctuation">(</span><span class="token string">"critical level message"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="分类处理"><a href="#分类处理" class="headerlink" title="分类处理"></a>分类处理</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> loguru <span class="token keyword">import</span> logger
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+
+log_dir <span class="token operator">=</span> Path<span class="token punctuation">(</span><span class="token string">"./"</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token keyword">not</span> log_dir<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    log_dir<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    
+log_format <span class="token operator">=</span> <span class="token string">"&#123;time:YYYY-MM-DD HH:mm:ss&#125; - &#123;level:8&#125;- &#123;file:10&#125; - &#123;line:5&#125; - &#123;message&#125;"</span>
+logger<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Path<span class="token punctuation">.</span>joinpath<span class="token punctuation">(</span>log_dir<span class="token punctuation">,</span> Path<span class="token punctuation">(</span><span class="token string">"&#123;time:YYYY-MM-DD&#125;.log"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">format</span> <span class="token operator">=</span> log_format<span class="token punctuation">,</span> rotation<span class="token operator">=</span><span class="token string">"3 day"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
             </div>
             <hr>
@@ -462,6 +488,8 @@
 
 
 
+  
+    
   
 
 

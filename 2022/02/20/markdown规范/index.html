@@ -24,7 +24,7 @@
 <meta property="og:description" content="Markdown 文件书写规范，基于 GFM 和百度 fex-team 团队格式修改。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-20T06:08:39.000Z">
-<meta property="article:modified_time" content="2022-02-21T07:50:47.106Z">
+<meta property="article:modified_time" content="2022-03-02T13:04:20.246Z">
 <meta property="article:author" content="zhanghr">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
@@ -42,7 +42,15 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+      
+        
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+      
     
   
 
@@ -202,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      490 字
+      499 字
     </span>
   
 
@@ -258,7 +266,8 @@
 <li>文件编码必须使用 UTF-8</li>
 <li>文件标题书写采用如下规范, 使用 26个 = 号隔开</li>
 </ul>
-<figure class="highlight abnf"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs abnf">Markdown 规范<br><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token title important">Markdown 规范
+<span class="token punctuation">==========================</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div>
 
 <h2 id="章节规范"><a href="#章节规范" class="headerlink" title="章节规范"></a>章节规范</h2><ul>
 <li>章节标题必须以 ## 开始</li>
@@ -283,14 +292,19 @@
 <td>内容4</td>
 </tr>
 </tbody></table>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">第一行 <span class="hljs-string">| 第二行 </span><br>----- <span class="hljs-string">| ----- </span><br>内容<span class="hljs-number">1</span> <span class="hljs-string">| 内容2 </span><br>内容<span class="hljs-number">3</span> <span class="hljs-string">| 内容4 </span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">第一行 | 第二行 
+----- | ----- 
+内容1 | 内容2 
+内容3 | 内容4 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h2><ul>
 <li>代码块插入使用连续两个 ``` </li>
 <li>代码块中插入 ``` 代码时使用 ````代替</li>
 <li>代码块与文本之间插入空行</li>
 </ul>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-string">``</span><span class="hljs-string">`</span><br><span class="hljs-string">## 演示使用</span><br><span class="hljs-string">`</span><span class="hljs-string">``</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token code"><span class="token punctuation">```</span><span class="token code-language"> markdown [文本块](超链接)</span>
+<span class="token code-block language-markdown"><span class="token title important"><span class="token punctuation">##</span> 演示使用</span></span>
+<span class="token punctuation">```</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="正文规范"><a href="#正文规范" class="headerlink" title="正文规范"></a>正文规范</h2><ul>
 <li>英文和数字使用半角字符</li>
@@ -511,6 +525,8 @@
 
 
 
+  
+    
   
 
 

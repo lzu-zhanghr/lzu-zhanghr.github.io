@@ -24,7 +24,7 @@
 <meta property="og:description" content="创建型模式：用于创建对象">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-03-02T03:33:23.000Z">
-<meta property="article:modified_time" content="2022-03-02T09:59:41.596Z">
+<meta property="article:modified_time" content="2022-03-02T12:55:58.577Z">
 <meta property="article:author" content="zhanghr">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary_large_image">
@@ -42,7 +42,15 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+      
+        
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+      
     
   
 
@@ -202,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.4k 字
+      3.9k 字
     </span>
   
 
@@ -211,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      37 分钟
+      33 分钟
     </span>
   
 
@@ -264,7 +272,18 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABCMeta, abstractmethod<br><br><span class="hljs-keyword">class</span> <span class="hljs-symbol">PaymentFactory:</span><br><span class="hljs-symbol">    <span class="hljs-symbol">def</span></span> <span class="hljs-symbol">create_payment</span>(<span class="hljs-symbol">self, <span class="hljs-symbol">method</span></span>):<br>        <span class="hljs-symbol">if</span> <span class="hljs-symbol">method</span> == &quot;<span class="hljs-symbol">alipay</span>&quot;:<br>            <span class="hljs-symbol">return</span> <span class="hljs-symbol">Alipay</span>()<br>        <span class="hljs-symbol">elif</span> <span class="hljs-symbol">method</span> == &quot;<span class="hljs-symbol">wechat</span>&quot;:<br>            <span class="hljs-symbol">return</span> <span class="hljs-symbol">WechatPay</span>()<br>        # <span class="hljs-symbol">elif</span> <span class="hljs-symbol">new</span> <span class="hljs-symbol">method</span>&quot;<br>        # <span class="hljs-symbol">new</span> <span class="hljs-symbol">class</span> <br>        <span class="hljs-symbol">else:</span><br><span class="hljs-symbol">            <span class="hljs-symbol">raise</span></span> <span class="hljs-symbol">TypeError</span>(<span class="hljs-symbol">f</span>&quot;<span class="hljs-symbol">No</span> <span class="hljs-symbol">such</span> <span class="hljs-symbol">payment</span> <span class="hljs-symbol">named</span> &#123;method&#125;<span class="hljs-string">&quot;)</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> abc <span class="token keyword">import</span> ABCMeta<span class="token punctuation">,</span> abstractmethod
+
+<span class="token keyword">class</span> <span class="token class-name">PaymentFactory</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">create_payment</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> method<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> method <span class="token operator">==</span> <span class="token string">"alipay"</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> Alipay<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> method <span class="token operator">==</span> <span class="token string">"wechat"</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> WechatPay<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment"># elif new method"</span>
+        <span class="token comment"># new class </span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> TypeError<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"No such payment named </span><span class="token interpolation"><span class="token punctuation">&#123;</span>method<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><ul>
 <li>内容：定义了创建对象的抽象接口（工厂接口）</li>
@@ -278,7 +297,20 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABCMeta, abstractmethod<br><br><span class="hljs-keyword">class</span> <span class="hljs-symbol">PaymentFactory</span>(<span class="hljs-symbol">metaclass</span>=<span class="hljs-symbol">ABCMeta</span>):<br>    @<span class="hljs-symbol">abstractmethod</span><br>    <span class="hljs-symbol">def</span> <span class="hljs-symbol">create_payment</span>(<span class="hljs-symbol">self</span>):<br>        <span class="hljs-symbol">pass</span><br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">AlipayFactory</span>(<span class="hljs-symbol">PaymentFactory</span>):<br>    <span class="hljs-symbol">def</span> <span class="hljs-symbol">create_payment</span>(<span class="hljs-symbol">self</span>):<br>        <span class="hljs-symbol">return</span> <span class="hljs-symbol">Alipay</span>()<br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">WechatFactory</span>(<span class="hljs-symbol">PaymentFactory</span>):<br>    <span class="hljs-symbol">def</span> <span class="hljs-symbol">create_payment</span>(<span class="hljs-symbol">self</span>):<br>        <span class="hljs-symbol">return</span> <span class="hljs-symbol">WechatPay</span>()<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> abc <span class="token keyword">import</span> ABCMeta<span class="token punctuation">,</span> abstractmethod
+
+<span class="token keyword">class</span> <span class="token class-name">PaymentFactory</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">create_payment</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AlipayFactory</span><span class="token punctuation">(</span>PaymentFactory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">create_payment</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> Alipay<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">WechatFactory</span><span class="token punctuation">(</span>PaymentFactory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">create_payment</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> WechatPay<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><ul>
 <li>内容：定义了工厂类接口，使工厂子类创建一系列相关或者相互依赖的对象，相比工厂方法模式，抽象工厂模式中每一个具体具体工厂都生产一套产品</li>
@@ -293,7 +325,115 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABCMata, abstractmethod<br><br><span class="hljs-comment"># 抽象产品 </span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PhoneShell</span>(metaclass=ABCMeta):<br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CPU</span>(metaclass=ABCMeta):<br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OS</span>(metaclass=ABCMeta):<br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-comment"># 抽象工厂</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PhoneFactory</span>(metaclass=ABCMeta):<br><span class="hljs-meta">    @abstractmethod(<span class="hljs-params">self</span>):</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br>    <br><span class="hljs-meta">    @abstractmethod(<span class="hljs-params">self</span>):</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-meta">    @abstractmethod(<span class="hljs-params">self</span>):</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-comment"># 具体产品</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SmallShell</span>(<span class="hljs-title class_ inherited__">PhoneShell</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;small shell&quot;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BigShell</span>(<span class="hljs-title class_ inherited__">PhoneShell</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;big shell&quot;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppleShell</span>(<span class="hljs-title class_ inherited__">PhoneShell</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;apple shell&#x27;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SnapDragonCPU</span>(<span class="hljs-title class_ inherited__">CPU</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;snapdragon cpu&#x27;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppleCPU</span>(<span class="hljs-title class_ inherited__">CPU</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;apple cpu&#x27;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Android</span>(<span class="hljs-title class_ inherited__">OS</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;ios os&#x27;</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">IOS</span>(<span class="hljs-title class_ inherited__">OS</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;ios os&#x27;</span>)<br>        <br><span class="hljs-comment"># 具体工厂</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MiFactory</span>(<span class="hljs-title class_ inherited__">PhoneFactory</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> BigShell()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> SnapDragonCPU()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> Android()<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">IPhone</span>(<span class="hljs-title class_ inherited__">PhoneFactory</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_shell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> AppleShell()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_cpu</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> AppleCPU()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_os</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span>  IOS()<br><br><span class="hljs-comment"># 客户端</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Phone</span>():<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, shell, cpu, os</span>):<br>        self.cpu = cpu<br>        self.os = os<br>        self.shell = shell<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">show_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;手机信息&quot;</span>)<br>        self.cpu.show_cpu()<br>        self.os.show_os()<br>        self.shell.show_shell()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">make_phone</span>(<span class="hljs-params">factory</span>):<br>    cpu = factory.make_cpu()<br>    os = factory.make_os()<br>    shell = factory.make_shell()<br>    <span class="hljs-keyword">return</span> Phone(shell, cpu, os)<br><br>p1 = make_phone(MiFactory())<br>p1.show_info()<br><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> abc <span class="token keyword">import</span> ABCMata<span class="token punctuation">,</span> abstractmethod
+
+<span class="token comment"># 抽象产品 </span>
+
+<span class="token keyword">class</span> <span class="token class-name">PhoneShell</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">show_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CPU</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">show_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token keyword">class</span> <span class="token class-name">OS</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">show_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token comment"># 抽象工厂</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PhoneFactory</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">make_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+    
+    <span class="token decorator annotation punctuation">@abstractmethod</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">make_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token decorator annotation punctuation">@abstractmethod</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">make_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token comment"># 具体产品</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SmallShell</span><span class="token punctuation">(</span>PhoneShell<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"small shell"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BigShell</span><span class="token punctuation">(</span>PhoneShell<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"big shell"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AppleShell</span><span class="token punctuation">(</span>PhoneShell<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'apple shell'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SnapDragonCPU</span><span class="token punctuation">(</span>CPU<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'snapdragon cpu'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AppleCPU</span><span class="token punctuation">(</span>CPU<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'apple cpu'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Android</span><span class="token punctuation">(</span>OS<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'ios os'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">IOS</span><span class="token punctuation">(</span>OS<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">show_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'ios os'</span><span class="token punctuation">)</span>
+        
+<span class="token comment"># 具体工厂</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MiFactory</span><span class="token punctuation">(</span>PhoneFactory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">make_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> BigShell<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">make_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> SnapDragonCPU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">make_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> Android<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">IPhone</span><span class="token punctuation">(</span>PhoneFactory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">make_shell</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> AppleShell<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">make_cpu</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> AppleCPU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">make_os</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span>  IOS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 客户端</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Phone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> shell<span class="token punctuation">,</span> cpu<span class="token punctuation">,</span> os<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>cpu <span class="token operator">=</span> cpu
+        self<span class="token punctuation">.</span>os <span class="token operator">=</span> os
+        self<span class="token punctuation">.</span>shell <span class="token operator">=</span> shell
+
+    <span class="token keyword">def</span> <span class="token function">show_info</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"手机信息"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>cpu<span class="token punctuation">.</span>show_cpu<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>os<span class="token punctuation">.</span>show_os<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>shell<span class="token punctuation">.</span>show_shell<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">make_phone</span><span class="token punctuation">(</span>factory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    cpu <span class="token operator">=</span> factory<span class="token punctuation">.</span>make_cpu<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    os <span class="token operator">=</span> factory<span class="token punctuation">.</span>make_os<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    shell <span class="token operator">=</span> factory<span class="token punctuation">.</span>make_shell<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> Phone<span class="token punctuation">(</span>shell<span class="token punctuation">,</span> cpu<span class="token punctuation">,</span> os<span class="token punctuation">)</span>
+
+p1 <span class="token operator">=</span> make_phone<span class="token punctuation">(</span>MiFactory<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+p1<span class="token punctuation">.</span>show_info<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><ul>
 <li>内容：将一个复杂对象的构建与它的表示分离，是使得不同的构建过程可以创建不同的表示；与抽象工厂模式相比，建造者模式着重于一步步构建复杂对象，而抽象工厂模式着重于创建多个系列的产品对象</li>
@@ -304,7 +444,65 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, face = <span class="hljs-literal">None</span>, body = <span class="hljs-literal">None</span>, arm = <span class="hljs-literal">None</span>, leg = <span class="hljs-literal">None</span></span>):<br>        self.face = face<br>        self.leg = leg<br>        self.arm = arm<br>        self.leg = leg<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;self.face: s&#125;</span>, <span class="hljs-subst">&#123;self.body: s&#125;</span>, <span class="hljs-subst">&#123;self.arm: s&#125;</span>, <span class="hljs-subst">&#123;self.leg: s&#125;</span>&quot;</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PlayerBuilder</span>(metaclass=ABCMeta):<br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_face</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_body</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_arm</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_leg</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SexyGirlBuild</span>(<span class="hljs-title class_ inherited__">PlayerBuilder</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        self.player = Player()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_face</span>(<span class="hljs-params">self</span>):<br>        self.player.face = <span class="hljs-string">&quot;cute face&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_body</span>(<span class="hljs-params">self</span>):<br>        self.player.body = <span class="hljs-string">&quot;thin body&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_arm</span>(<span class="hljs-params">self</span>):<br>        self.player.arm = <span class="hljs-string">&quot;snow arm&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_leg</span>(<span class="hljs-params">self</span>):<br>        self.player.leg = <span class="hljs-string">&quot;long leg&quot;</span><br><br><span class="hljs-comment"># 控制组装顺序</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PlayerDirector</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">build_player</span>(<span class="hljs-params">self, builder</span>):<br>        builder.build_body()<br>        builder.build_face()<br>        builder.build_arm()<br>        builder.build_leg()<br>        <span class="hljs-keyword">return</span> builder.player<br><br><span class="hljs-comment"># client</span><br><br>builder = SexyGirlBuilder()<br>director = PlayerDirector()<br>p = director.build_player()<br><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Player</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> face <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">,</span> body <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">,</span> arm <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">,</span> leg <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>face <span class="token operator">=</span> face
+        self<span class="token punctuation">.</span>leg <span class="token operator">=</span> leg
+        self<span class="token punctuation">.</span>arm <span class="token operator">=</span> arm
+        self<span class="token punctuation">.</span>leg <span class="token operator">=</span> leg
+    
+    <span class="token keyword">def</span> <span class="token function">__str__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>face<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">, </span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>body<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">, </span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>arm<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">, </span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>leg<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+
+<span class="token keyword">class</span> <span class="token class-name">PlayerBuilder</span><span class="token punctuation">(</span>metaclass<span class="token operator">=</span>ABCMeta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">build_face</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">build_body</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">build_arm</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token decorator annotation punctuation">@abstractmethod</span>
+    <span class="token keyword">def</span> <span class="token function">build_leg</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SexyGirlBuild</span><span class="token punctuation">(</span>PlayerBuilder<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>player <span class="token operator">=</span> Player<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">build_face</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>player<span class="token punctuation">.</span>face <span class="token operator">=</span> <span class="token string">"cute face"</span>
+
+    <span class="token keyword">def</span> <span class="token function">build_body</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>player<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token string">"thin body"</span>
+
+    <span class="token keyword">def</span> <span class="token function">build_arm</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>player<span class="token punctuation">.</span>arm <span class="token operator">=</span> <span class="token string">"snow arm"</span>
+
+    <span class="token keyword">def</span> <span class="token function">build_leg</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>player<span class="token punctuation">.</span>leg <span class="token operator">=</span> <span class="token string">"long leg"</span>
+
+<span class="token comment"># 控制组装顺序</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PlayerDirector</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">build_player</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> builder<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        builder<span class="token punctuation">.</span>build_body<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        builder<span class="token punctuation">.</span>build_face<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        builder<span class="token punctuation">.</span>build_arm<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        builder<span class="token punctuation">.</span>build_leg<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> builder<span class="token punctuation">.</span>player
+
+<span class="token comment"># client</span>
+
+builder <span class="token operator">=</span> SexyGirlBuilder<span class="token punctuation">(</span><span class="token punctuation">)</span>
+director <span class="token operator">=</span> PlayerDirector<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p <span class="token operator">=</span> director<span class="token punctuation">.</span>build_player<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><ul>
 <li>内容：保证一个类只有一个实例，并提供一个全局访问点去访问</li>
@@ -319,7 +517,23 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">from abc import ABCMeta, abstractmethod<br><br><span class="hljs-keyword">class</span> Singleton:<br>    def <span class="hljs-constructor">__new__(<span class="hljs-params">cls</span>, <span class="hljs-operator">*</span><span class="hljs-params">args</span>, <span class="hljs-operator">**</span><span class="hljs-params">kwargs</span>)</span>:<br>        <span class="hljs-keyword">if</span> not hasattr(cls, <span class="hljs-string">&quot;_instance&quot;</span>):<br>            cls._instance = super(Singleton, cls).<span class="hljs-constructor">__new__(<span class="hljs-params">cls</span>)</span><br>            return cls._instance<br><br><span class="hljs-keyword">class</span> <span class="hljs-constructor">Myclass(Singleton)</span>:<br>    def <span class="hljs-constructor">__init__(<span class="hljs-params">self</span>, <span class="hljs-params">a</span>)</span>:<br>        self.c = c<br><br>a = <span class="hljs-constructor">MyClass(10)</span><br>b = <span class="hljs-constructor">MyClass(20)</span><br><br># 唯一实例：a, b 实例的 c 属性保持一致<br><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> abc <span class="token keyword">import</span> ABCMeta<span class="token punctuation">,</span> abstractmethod
+
+<span class="token keyword">class</span> <span class="token class-name">Singleton</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__new__</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> <span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> <span class="token builtin">hasattr</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> <span class="token string">"_instance"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            cls<span class="token punctuation">.</span>_instance <span class="token operator">=</span> <span class="token builtin">super</span><span class="token punctuation">(</span>Singleton<span class="token punctuation">,</span> cls<span class="token punctuation">)</span><span class="token punctuation">.</span>__new__<span class="token punctuation">(</span>cls<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> cls<span class="token punctuation">.</span>_instance
+
+<span class="token keyword">class</span> <span class="token class-name">Myclass</span><span class="token punctuation">(</span>Singleton<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>c <span class="token operator">=</span> c
+
+a <span class="token operator">=</span> MyClass<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+b <span class="token operator">=</span> MyClass<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 唯一实例：a, b 实例的 c 属性保持一致</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
 <h2 id="创建型模式小结"><a href="#创建型模式小结" class="headerlink" title="创建型模式小结"></a>创建型模式小结</h2><ul>
 <li>创建型模式包括工厂模式、抽象工厂模式、单例模式、建造者模式，原型模式、单例模式五类，主要用于对象的创建。</li>
@@ -359,6 +573,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/03/02/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">结构型模式</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -528,6 +748,8 @@
 
 
 
+  
+    
   
 
 
