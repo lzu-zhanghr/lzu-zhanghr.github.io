@@ -24,7 +24,7 @@
 <meta property="og:description" content="使用 tensorrt 对 pytorch 模型进行落地">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-22T08:00:19.000Z">
-<meta property="article:modified_time" content="2022-02-22T09:10:06.144Z">
+<meta property="article:modified_time" content="2022-03-01T07:28:03.454Z">
 <meta property="article:author" content="zhanghr">
 <meta property="article:tag" content="tensorrt">
 <meta name="twitter:card" content="summary_large_image">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      444 字
+      966 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      9 分钟
     </span>
   
 
@@ -263,7 +263,22 @@
 <li>对于 reshape、view 等操作，-1 的指定设置在 batch 维度，其他维度计算得出。</li>
 <li>使用 torch.onnx.export 函数时，dynamic_axes 参数指南指定 batch 维度。</li>
 </ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+<p>注: 这些做法的必要性在于简化过程复杂度去掉 gather, shape 等节点。</p>
+   <figure class="highlight haskell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-keyword">import</span> torch<br><span class="hljs-title">from</span> torch <span class="hljs-keyword">import</span> nn<br><span class="hljs-class"></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Model</span>(<span class="hljs-title">nn</span>.<span class="hljs-type">Module</span>):</span><br><span class="hljs-class">    def __init__(<span class="hljs-title">self</span>, ):</span><br><span class="hljs-class"></span><br><span class="hljs-class">         self.conv = nn.<span class="hljs-type">Conv2d</span>(1, 1, 3, <span class="hljs-title">stride</span>=1, <span class="hljs-title">padding</span>=1, <span class="hljs-title">bias</span>=<span class="hljs-type">True</span>)</span><br><span class="hljs-class">     </span><br><span class="hljs-class">     def forward(<span class="hljs-title">self</span>, <span class="hljs-title">x</span>):</span><br><span class="hljs-class">         return x.view(-1, <span class="hljs-title">int</span>(<span class="hljs-title">x</span>.<span class="hljs-title">numel</span> // <span class="hljs-title">x</span>.<span class="hljs-title">size</span>(0)))</span><br><span class="hljs-class"></span><br><span class="hljs-class"> model = <span class="hljs-type">Model</span>().eval()</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="动态模型处理"><a href="#动态模型处理" class="headerlink" title="动态模型处理"></a>动态模型处理</h2><ul>
+<li>动态 batch<br>源自 TensorRT 编译时将 batch 固化，耗时固定，因此需要采用导出 batch。<ul>
+<li>onnx 导出模型时，view 操作不能固定 batch 维度数值，改写成 -1</li>
+<li>onnx 导出模型时，通常可以指定 dynamic_axes, 实际不指定也没有关系</li>
+</ul>
+</li>
+<li>动态宽高<br>同上，源自模型编译时会将宽高固化，若后续宽高变化，则会影响使用，因此需要动态宽高的存在。<ul>
+<li>使用 TRT::compile 函数的 inputsDimsSetup 参数定义输入的 shape</li>
+<li>使用 TRT::set_layer_hook_reshape 钩子动态修改 reshape 的参数实现</li>
+</ul>
+</li>
+</ul>
+
             </div>
             <hr>
             <div>
@@ -296,6 +311,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">设计模式</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
