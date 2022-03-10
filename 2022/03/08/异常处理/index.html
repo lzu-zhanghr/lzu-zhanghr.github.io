@@ -16,21 +16,20 @@
   <meta name="author" content="zhanghr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Python 网络编程学习">
+    <meta name="description" content="try, except, elsetry:     f &#x3D; open(&quot;test_file&quot;, &quot;w&quot;)     f.write(&quot;test error case&quot;) except IOError:     print(&quot;file not found&quot;) else:     print(&quot;successfully write file&quot;)     f.close()  try, finallytr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网络编程（一）">
-<meta property="og:url" content="http://example.com/2022/03/03/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="异常处理">
+<meta property="og:url" content="http://example.com/2022/03/08/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Zhanghr&#39;s blog">
-<meta property="og:description" content="Python 网络编程学习">
+<meta property="og:description" content="try, except, elsetry:     f &#x3D; open(&quot;test_file&quot;, &quot;w&quot;)     f.write(&quot;test error case&quot;) except IOError:     print(&quot;file not found&quot;) else:     print(&quot;successfully write file&quot;)     f.close()  try, finallytr">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-03-03T11:37:57.000Z">
-<meta property="article:modified_time" content="2022-03-07T03:49:11.412Z">
+<meta property="article:published_time" content="2022-03-08T01:50:08.000Z">
+<meta property="article:modified_time" content="2022-03-08T03:34:14.600Z">
 <meta property="article:author" content="zhanghr">
-<meta property="article:tag" content="network">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>网络编程（一） - Zhanghr&#39;s blog</title>
+  <title>异常处理 - Zhanghr&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -184,7 +183,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="网络编程（一）">
+            <span class="h2" id="subtitle" title="异常处理">
               
             </span>
 
@@ -199,8 +198,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-03 19:37" pubdate>
-        March 3, 2022 pm
+      <time datetime="2022-03-08 09:50" pubdate>
+        March 8, 2022 am
       </time>
     </span>
   
@@ -210,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      843 字
     </span>
   
 
@@ -219,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16 分钟
+      8 分钟
     </span>
   
 
@@ -256,100 +255,63 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">网络编程（一）</h1>
+            <h1 style="display: none">异常处理</h1>
             
             <div class="markdown-body">
-              <h1 id="网络基础知识"><a href="#网络基础知识" class="headerlink" title="网络基础知识"></a>网络基础知识</h1><h2 id="OSI-参考模型"><a href="#OSI-参考模型" class="headerlink" title="OSI 参考模型"></a>OSI 参考模型</h2><h5 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h5><p>OSI协议是为了让计算机之间能够相互通信而提出的一种协议</p>
-<h5 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h5><p>物理层、数据链路层、网络层、传输层、会话层、表示层、应用层</p>
-<h5 id="详细介绍"><a href="#详细介绍" class="headerlink" title="详细介绍"></a>详细介绍</h5><ul>
-<li>物理层：为上层提供一个物理的连接，实现透明的比特流传输（<strong>传输</strong>）</li>
-<li>数据链路层：负责在2个相邻的结点之间的链路上实现无差错的数据帧传输（<strong>同步</strong>）</li>
-<li>网络层：为要传输的分组选择一条合适的路径，使发送分组能够正确无误地按照给定的目的地址找到目的主机（<strong>路由</strong>）</li>
-<li>传输层：2个端系统的会话层之间建立一条连接通道，以透明地传输报文（<strong>建立、管理和维护连接</strong>）</li>
-<li>会话层：会话层以及以上各层中，数据的传输都以报文为单位，会话层不参与具体的传输，它提供包括访问验证和会话管理在内的建立以及维护应用之间的通信机制（<strong>会话建立、维护、验证</strong>）</li>
-<li>表示层：提供格式化的表示和转换数据服务。数据的压缩和解压缩、加密和解密等工（<strong>数据格式转化、数据加密</strong>）</li>
-<li>应用层：确定进程之间通信的性质，提供网络与用户软件之间的接口服务（<strong>服务程序</strong>）</li>
-</ul>
-<h2 id="TCP-IP-模型"><a href="#TCP-IP-模型" class="headerlink" title="TCP/IP 模型"></a>TCP/IP 模型</h2><h5 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h5><p>TCP/IP协议不是单纯的某一个协议，也不是单指TCP协议，而是一个协议族</p>
-<h5 id="详细介绍-1"><a href="#详细介绍-1" class="headerlink" title="详细介绍"></a>详细介绍</h5><ul>
-<li>应用层：主要协议有 DNS,URI,HTML,HTTP,SSL,SMTP,POP,IMAPTELNET，SSH,FTP,SNMP，是用来接收来自传输层的数据或者按不同应用要求与方式将数据传输至传输层（<strong>处理应用程序逻辑</strong>）</li>
-<li>传输层：主要协议有 TCP,UDP,UDP-Lite,SCTP,DCCP，是使用者使用平台和计算机信息网内部数据结合的通道，可以实现数据传输与数据共享（<strong>进行数据传输协议</strong>）</li>
-<li>网络 IP 层: 主要协议有 ICMP、IP、IGMP，主要负责网络中数据包的传送等（<strong>路由和转发</strong>）</li>
-<li>数据链路层: 主要协议有ARP、RARP，主要是提供链路管理错误检测、对不同通信媒介有关信息细节问题进行有效处理等。（<strong>数据流同步</strong>）</li>
-<li>物理层：为上层提供一个物理的连接，实现透明的比特流传输（<strong>传输</strong>）</li>
-</ul>
-<h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><h5 id="子网掩码和-IP"><a href="#子网掩码和-IP" class="headerlink" title="子网掩码和 IP"></a>子网掩码和 IP</h5><ul>
-<li><p>网络地址相同的 IP, 称为属于同一个网段，局域网内相同网络 IP 才能通信，不同 IP 相要通信需要路由转发才能通信</p>
-</li>
-<li><p>网络地址通过子网掩码掩盖之后，划分为网络地址和主机地址，属于同一网络的主机可以实现局域通信</p>
-</li>
-<li><p>子网掩码：255.255.240.0 即 11111111, 11111111, 11111100, 000000000</p>
-</li>
-<li><p>IP 地址：192.168.99.254 即 11000000, 10101000, 01100011, 11111110</p>
-</li>
-<li><p>掩盖之后网络地址： 11000000, 10101000, 011000   </p>
-</li>
-<li><p>掩盖之后主机地址： 11, 11111110</p>
-</li>
-</ul>
-<h5 id="B-S-和-C-S-架构"><a href="#B-S-和-C-S-架构" class="headerlink" title="B/S 和 C/S 架构"></a>B/S 和 C/S 架构</h5><ul>
-<li>B/S 架构：broswer 和 server, 只需要开发服务端</li>
-<li>C/S 架构：client 和 server, 需要开发服务端和客户端</li>
-</ul>
-<h5 id="TCP-和-UDP-协议"><a href="#TCP-和-UDP-协议" class="headerlink" title="TCP 和 UDP 协议"></a>TCP 和 UDP 协议</h5><ul>
-<li>UDP: 不提供可靠性，只是将应用程序传给 IP 层的数据报发布出去，并不能保证到达目的地，传输速度很快。</li>
-<li>TCP: 面向连接的协议，收发数据之前，必须和对方建立可靠的连接，而后进行数据收发。</li>
-</ul>
-<h5 id="三次握手和四次挥手"><a href="#三次握手和四次挥手" class="headerlink" title="三次握手和四次挥手"></a>三次握手和四次挥手</h5><h6 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h6><ul>
-<li>意义：明确自己和对方的收、发能力是正常的</li>
-<li>过程：<ul>
-<li>第一次握手：客户端发送网络包，服务端收到（<strong>客户端的发送能力、服务端的接收能力正常</strong>）</li>
-<li>第二次握手：服务端发包，客户端收到（<strong>服务端的接收、发送能力，客户端的接收、发送能力正常</strong>）</li>
-<li>第三次握手：第一、二次握手后，<strong>服务端并不知道客户端的接收能力以及自己的发送能力是否正常</strong>，因此才需要再握手一次来让服务端确认<h6 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h6></li>
-</ul>
-</li>
-<li>过程：<ul>
-<li>第一次挥手：表示主机 <strong>A 没有数据要发送</strong>给主机B了</li>
-<li>第二次挥手：主机 B 告诉主机 A, <strong>B 也没有数据要发送</strong></li>
-<li>第三次挥手：主机 <strong>B</strong> 向主机 A 发送 FIN 报文段，<strong>请求关闭连接</strong></li>
-<li>第四次挥手：主机 <strong>A 收到</strong>主机 B 发送的 <strong>FIN</strong> 报文段，<strong>向主机 B 发送 ACK</strong> 报文段，并<strong>结束连接</strong>；主机 B 收到 <strong>A 的 ACK 报文，知道 A 已经结束，则 B 也结束连接</strong></li>
-</ul>
-</li>
-</ul>
-<h5 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h5><ul>
-<li>两台电脑进行数据收发时，并非将数据直接传输给对方</li>
-<li>发送者：sendall/send 时，将数据发送至网卡缓冲区，再由缓冲区发送至对方网卡缓冲区</li>
-<li>接受者：recv 时，从网卡缓冲区读取数据</li>
-<li>若<strong>发送者快速发送两条消息，而接受者认为是一条</strong>：两个数据包粘在一起了</li>
-</ul>
-<h5 id="select-poll-epoll"><a href="#select-poll-epoll" class="headerlink" title="select, poll, epoll"></a>select, poll, epoll</h5><ul>
-<li><p>select: 时间复杂度 O(n), select 方法仅仅知道有 I/O 事件发生，因此只能无差别轮询，处理的流越多，轮询时间就越长</p>
-</li>
-<li><p>poll: 时间复杂度 O(n), poll 方法查询同 select 方法，但因为采用链表存储，因此没有最大连接数目的限制</p>
-</li>
-<li><p>epoll: 时间复杂度 O(1), 采用事件驱动，会将每个流具体的 I/O 事件<br>进行通知，因此对这些流的操作复杂度降到了 O(1)</p>
-</li>
-</ul>
+              <h2 id="try-except-else"><a href="#try-except-else" class="headerlink" title="try, except, else"></a>try, except, else</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">try</span><span class="token punctuation">:</span>
+    f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_file"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
+    f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"test error case"</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IOError<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"file not found"</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"successfully write file"</span><span class="token punctuation">)</span>
+    f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
+<h2 id="try-finally"><a href="#try-finally" class="headerlink" title="try, finally"></a>try, finally</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">try</span><span class="token punctuation">:</span>
+    f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_file"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"test error case"</span><span class="token punctuation">)</span>
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IOError<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"file not found"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="自定义异常与抛出"><a href="#自定义异常与抛出" class="headerlink" title="自定义异常与抛出"></a>自定义异常与抛出</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> Exception
+
+<span class="token keyword">class</span> <span class="token class-name">GenderException</span><span class="token punctuation">(</span>Exception<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> <span class="token operator">*</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>args <span class="token operator">=</span> arg
+
+gender <span class="token operator">=</span><span class="token string">"male-female"</span>
+<span class="token keyword">if</span> gender <span class="token operator">!=</span> <span class="token string">"male"</span> <span class="token keyword">and</span> gender <span class="token operator">!=</span><span class="token string">"female"</span><span class="token punctuation">:</span>
+    <span class="token keyword">raise</span> GenderException<span class="token punctuation">(</span><span class="token string">"only male and female"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="自定义模块"><a href="#自定义模块" class="headerlink" title="自定义模块"></a>自定义模块</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> my_module <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 默认会导入全部，但有时候需要进行权限管理</span>
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"module1"</span><span class="token punctuation">,</span> <span class="token string">"module2"</span><span class="token punctuation">]</span> <span class="token comment"># 重新进行导入时，只会导入 module1, module2</span>
+
+<span class="token keyword">from</span> <span class="token punctuation">.</span>moudle <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 从当前包中的 module 模块导入全部</span>
+
+<span class="token comment"># 自定义模块，切换项目之后无法找到模块文件，解决方法</span>
+<span class="token comment"># 1.将模块所在路径加入解释器路径中，不建议使用</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    <span class="token keyword">import</span> my_package<span class="token punctuation">.</span>my_module <span class="token keyword">as</span> module
+<span class="token keyword">except</span><span class="token punctuation">:</span>
+    <span class="token keyword">import</span> sys
+    sys<span class="token punctuation">.</span>path<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">".path/to/my_package"</span><span class="token punctuation">)</span>
+    <span class="token keyword">import</span> my_package<span class="token punctuation">.</span>my_module <span class="token keyword">as</span> module
+<span class="token comment"># 2.将自定义模块，发布到系统目录</span>
+    <span class="token comment"># 1) 确定发布的模块的目录结构</span>
+    <span class="token comment"># 2) setup 编辑工作</span>
+    <span class="token comment"># 3) 构建模块</span>
+    <span class="token comment"># 4) 发布模块</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/network/">network</a>
-                    
-                  </div>
                 
               </div>
               
@@ -364,18 +326,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/03/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%AE%9E%E6%88%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">网络通信实战</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/03/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/">
-                        <span class="hidden-mobile">行为型模式</span>
+                      <a href="/2022/03/08/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+                        <span class="hidden-mobile">内存管理</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

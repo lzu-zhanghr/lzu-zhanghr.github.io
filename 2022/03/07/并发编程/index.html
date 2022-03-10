@@ -1,0 +1,1214 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/card-text.svg">
+  <link rel="icon" href="/img/card-text.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhanghr">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Python 并行编程基本概念 线程: 计算机中可以被 cpu 调度的最小单元（真正工作单元），适合 IO 密集型操作 进程: 计算机资源分配的最小单元（进程为线程提供资源），适合计算密集型操作 GIL 锁: 为了安全，让一个进程同一时刻只能有一个线程可以被 CPU 调用  多线程import time import requests import threading  url_list &#x3D; [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发编程">
+<meta property="og:url" content="http://example.com/2022/03/07/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Zhanghr&#39;s blog">
+<meta property="og:description" content="Python 并行编程基本概念 线程: 计算机中可以被 cpu 调度的最小单元（真正工作单元），适合 IO 密集型操作 进程: 计算机资源分配的最小单元（进程为线程提供资源），适合计算密集型操作 GIL 锁: 为了安全，让一个进程同一时刻只能有一个线程可以被 CPU 调用  多线程import time import requests import threading  url_list &#x3D; [">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-07T03:55:25.000Z">
+<meta property="article:modified_time" content="2022-03-10T09:18:30.821Z">
+<meta property="article:author" content="zhanghr">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>并发编程 - Zhanghr&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      
+        
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+      
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"SHbJRvB3vfoJ6XMOl24RFvBv-gzGzoHsz","app_key":"Nv32LDbptxJUoAzAgkbLj4xg","server_url":"https://shbjrvb3.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhanghr&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="并发编程">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      zhanghr
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-07 11:55" pubdate>
+        March 7, 2022 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      94 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">并发编程</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Python-并行编程"><a href="#Python-并行编程" class="headerlink" title="Python 并行编程"></a>Python 并行编程</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li>线程: 计算机中可以被 cpu 调度的最小单元（真正工作单元），适合 IO 密集型操作</li>
+<li>进程: 计算机资源分配的最小单元（进程为线程提供资源），适合计算密集型操作</li>
+<li>GIL 锁: 为了安全，让一个进程同一时刻只能有一个线程可以被 CPU 调用</li>
+</ul>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> time
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> threading
+
+url_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token string">"file_name1"</span><span class="token punctuation">:</span> <span class="token string">"web resrouce url1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token string">"file_name2"</span><span class="token punctuation">:</span> <span class="token string">"web resrouce url2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    res <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>res<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> name<span class="token punctuation">,</span> url <span class="token keyword">in</span> url_list<span class="token punctuation">:</span>
+    t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>task<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> threading
+
+loop <span class="token operator">=</span> <span class="token number">2000000</span>
+number <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token keyword">def</span> <span class="token function">_add</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> number
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        num <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token keyword">def</span> <span class="token function">_sub</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> number
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        num <span class="token operator">-=</span> <span class="token number">1</span>
+    
+t1 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>_add<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+t2 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>_sub<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+t1<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+t1<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 待所有子线程运行完之后，主线程才结束</span>
+t2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+t2<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 待所有子线程运行完之后，主线程才结束</span>
+<span class="token comment"># 上述实现了串行执行</span>
+
+<span class="token comment"># 守护线程: 设置一个线程为守护线程，就表示这个线程是不重要的，在进程退出的时候，不用等待这个线程退出</span>
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span>
+
+t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>task<span class="token punctuation">,</span> args<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token punctuation">)</span>
+t<span class="token punctuation">.</span>setDaemon<span class="token punctuation">(</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 设置为守护线程，主线程执行完毕之后，进程就结束了，子线程也将被迫关闭</span>
+<span class="token comment"># 设置为非守护线程，主线程执行完毕之后，需要等待子线程执行完毕，而后结束进程</span>
+
+<span class="token comment"># 线程安全: 线程锁的实现</span>
+
+lock <span class="token operator">=</span> threading<span class="token punctuation">.</span>RLock<span class="token punctuation">(</span><span class="token punctuation">)</span>
+loop <span class="token operator">=</span> <span class="token number">2000000</span>
+number <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token keyword">def</span> <span class="token function">_add</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> lock<span class="token punctuation">:</span>
+        <span class="token keyword">global</span> number
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            num <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token keyword">def</span> <span class="token function">_sub</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> lock<span class="token punctuation">:</span>
+        <span class="token keyword">global</span> number
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            num <span class="token operator">-=</span> <span class="token number">1</span>
+
+    
+t1 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>_add<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+t2 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>_sub<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+t1<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+t2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+t1<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+t2<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token comment"># 全局变量对所有进程是共享的，会导致安全问题，加入线程锁之后，就不用担心线程安全问题，因为线程无法并行访问 number</span>
+<span class="token comment"># Lock 不支持锁的嵌套，会导致死锁的产生</span>
+<span class="token comment"># RLock 支持锁的嵌套</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span>Thread<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> rnage<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"I'm </span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>name<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string"> @</span><span class="token interpolation"><span class="token punctuation">&#123;</span>i<span class="token punctuation">:</span><span class="token format-spec"> d</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    t <span class="token operator">=</span> MyThread<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<ul>
+<li>Python 线程安全操作: 必须关注开发文档</li>
+</ul>
+<h2 id="GIL-锁"><a href="#GIL-锁" class="headerlink" title="GIL 锁"></a>GIL 锁</h2><h5 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h5><ul>
+<li><p>Python 解释器保证数据安全，避免垃圾回收线程和工作线程同时运行，创建了 GIL 锁，只允许一个进程只能串行执行其中的线程，当今多核 CPU 无法很好的利用 </p>
+</li>
+<li><p>GIL 锁和自定义锁为什么要同时存在？<br>  锁的目的是保护共享的数据，保护不同的数据需要不同的锁；GIL 和 自定义锁是两把锁，GIL 负责保护解释器级别的数据，而自定义锁负责保护自己开发的应用程序的数据</p>
+</li>
+</ul>
+<h5 id="并发方案选择"><a href="#并发方案选择" class="headerlink" title="并发方案选择"></a>并发方案选择</h5><ul>
+<li>单核 CPU<ul>
+<li>I/O 密集型：多线程优于多进程</li>
+<li>计算密集型：多线程优于多进程</li>
+</ul>
+</li>
+<li>多核 CPU<ul>
+<li>I/O 密集型：多线程优于多进程</li>
+<li>计算密集型：多进程优于多线程</li>
+</ul>
+</li>
+</ul>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><ul>
+<li>相较于互斥锁 (mutex), 信号量 (Semaphore) 可以控制多个资源<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> threading <span class="token keyword">import</span> Semaphore<span class="token punctuation">,</span> Thread<span class="token punctuation">,</span> currentThread
+<span class="token keyword">import</span> time<span class="token punctuation">,</span> random
+
+sm <span class="token operator">=</span> Semaphore<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> sm<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>currentThread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getName<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string"> is running"</span></span><span class="token punctuation">)</span>
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span><span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        t <span class="token operator">=</span> Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>task<span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></li>
+</ul>
+<h2 id="event"><a href="#event" class="headerlink" title="event"></a>event</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> threading <span class="token keyword">import</span> Thread<span class="token punctuation">,</span> Event
+<span class="token keyword">import</span> time
+
+event <span class="token operator">=</span> Event<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">coon</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    n <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">while</span> <span class="token keyword">not</span> event<span class="token punctuation">.</span>is_set<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> n <span class="token operator">>=</span> <span class="token number">3</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>currentThread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getName<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">try too many times"</span></span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> 
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"try </span><span class="token interpolation"><span class="token punctuation">&#123;</span>currentThread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getName<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    event<span class="token punctuation">.</span>wait<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>
+    n <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>currentThread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getName<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string"> is connected"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">check</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>currentThread<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getName<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string"> is checking"</span></span><span class="token punctuation">)</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+    event<span class="token punctuation">.</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span><span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        t <span class="token operator">=</span> hread<span class="token punctuation">(</span>target<span class="token operator">=</span>conn<span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    t <span class="token operator">=</span> Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>check<span class="token punctuation">)</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="并发-socket"><a href="#并发-socket" class="headerlink" title="并发 socket"></a>并发 socket</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> socket <span class="token keyword">import</span> socket
+<span class="token keyword">from</span> threading <span class="token keyword">import</span> Thread
+
+<span class="token keyword">def</span> <span class="token function">communicate</span><span class="token punctuation">(</span>conn<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            data <span class="token operator">=</span> conn<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> data<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            conn<span class="token punctuation">.</span>sendall<span class="token punctuation">(</span>data<span class="token punctuation">.</span>upper<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">except</span> ConnectionResetError<span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+    
+    conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">server</span><span class="token punctuation">(</span>ip<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server <span class="token operator">=</span> socket<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token punctuation">(</span>ip<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>listen<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        conn<span class="token punctuation">,</span> addr <span class="token operator">=</span> server<span class="token punctuation">.</span>accept<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        t <span class="token operator">=</span> Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>communicate<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>conn<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    server<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    server<span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token number">12000</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="稳定的并发-socket"><a href="#稳定的并发-socket" class="headerlink" title="稳定的并发 socket"></a>稳定的并发 socket</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures <span class="token keyword">import</span> ProcessPoolExecutor<span class="token punctuation">,</span> ThreadPoolExecutor
+<span class="token keyword">import</span> random
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> os
+
+<span class="token comment"># 多进程</span>
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>name<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">:</span><span class="token interpolation"><span class="token punctuation">&#123;</span>os<span class="token punctuation">.</span>getpid<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    pool <span class="token operator">=</span> ProcessPoolExecutor<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        pool<span class="token punctuation">.</span>submit<span class="token punctuation">(</span>task<span class="token punctuation">,</span> <span class="token string">"egon"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    pool<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span>wait<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment"># 等待进程执行完之后，再执行后续代码</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"end task"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="回调机制"><a href="#回调机制" class="headerlink" title="回调机制"></a>回调机制</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures <span class="token keyword">import</span> ThreadExecutor
+<span class="token keyword">import</span> random
+<span class="token keyword">import</span> time
+
+<span class="token keyword">def</span> <span class="token function">test</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"&#123;name: s&#125; is testing"</span><span class="token punctuation">)</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    res <span class="token operator">=</span> random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> name<span class="token punctuation">,</span> <span class="token string">"res"</span><span class="token punctuation">:</span> res<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">def</span> <span class="token function">score</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result<span class="token punctuation">[</span><span class="token string">'res'</span><span class="token punctuation">]</span> <span class="token operator">=</span> random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token number">0.8</span><span class="token punctuation">,</span> <span class="token number">1.2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"&#123;result["</span></span>name<span class="token string">"]&#125;'s score is &#123;result["</span>res<span class="token string">": .1f]&#125;"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    pool <span class="token operator">=</span> ThreadPoolExecutor<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    student_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"alex"</span><span class="token punctuation">,</span> <span class="token string">"tom"</span><span class="token punctuation">,</span> <span class="token string">"jone"</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> stu <span class="token keyword">in</span> student_list<span class="token punctuation">:</span>
+        pool<span class="token punctuation">.</span>submit<span class="token punctuation">(</span>test<span class="token punctuation">,</span> args<span class="token operator">=</span>stu<span class="token punctuation">)</span><span class="token punctuation">.</span>add_done_callback<span class="token punctuation">(</span>score<span class="token punctuation">)</span>
+    
+    pool<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span>wait<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"end process"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> time
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> multiprocessing
+
+url_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token string">"file_name1"</span><span class="token punctuation">:</span> <span class="token string">"web resrouce url1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token string">"file_name2"</span><span class="token punctuation">:</span> <span class="token string">"web resrouce url2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    res <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>res<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> name<span class="token punctuation">,</span> url <span class="token keyword">in</span> url_list<span class="token punctuation">:</span>
+        t <span class="token operator">=</span> multi_processing<span class="token punctuation">.</span>Process<span class="token punctuation">(</span>target<span class="token operator">=</span>task<span class="token punctuation">,</span> args<span class="token punctuation">(</span>name<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 进程间通信方法：</span>
+<span class="token comment"># socket: 可以实现网络进程之间通信</span>
+<span class="token comment"># 文件: 使用文件实现进程通信</span>
+<span class="token comment"># Queue: 先进先出实现进程通信</span>
+
+<span class="token keyword">from</span> mulitiprocessing <span class="token keyword">import</span> Queue<span class="token punctuation">,</span> Process
+
+<span class="token keyword">def</span> <span class="token function">download_data</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> que<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>loop<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        que<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">process_data</span><span class="token punctuation">(</span>que<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">while</span> <span class="token keyword">not</span> que<span class="token punctuation">.</span>empty<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        data <span class="token operator">=</span> que<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    que <span class="token operator">=</span> Queue<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    p1 <span class="token operator">=</span> Process<span class="token punctuation">(</span>target<span class="token operator">=</span>download_data<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>loop<span class="token punctuation">,</span> que<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    p2 <span class="token operator">=</span> Process<span class="token punctuation">(</span>target<span class="token operator">=</span>process_data<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>que<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    p1<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    p2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    main<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 进程池会重复利用其中的进程</span>
+
+<span class="token keyword">from</span> multiprocessing <span class="token keyword">import</span> Pool
+<span class="token keyword">import</span> os<span class="token punctuation">,</span> time<span class="token punctuation">,</span> random
+
+<span class="token keyword">def</span> <span class="token function">worker</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>msg<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string"> 开始执行，进程号为</span><span class="token interpolation"><span class="token punctuation">&#123;</span>os<span class="token punctuation">.</span>getpid<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token format-spec"> 1d</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+po <span class="token operator">=</span> Pool<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    po<span class="token punctuation">.</span>apply_async<span class="token punctuation">(</span>worker<span class="token punctuation">,</span> <span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    po<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    po<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 主进程结束时间：运行到最后一行代码，守护进程的生命周期也是最好的一行代码</span>
+
+<span class="token keyword">from</span> multiprocessing <span class="token keyword">import</span> Process<span class="token punctuation">,</span> Lock
+
+<span class="token keyword">def</span> <span class="token function">task</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> mutex<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> mutex<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"process &#123;i: d&#125; done"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    mutex <span class="token operator">=</span> Lock<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        p <span class="token operator">=</span> Process<span class="token punctuation">(</span>target<span class="token operator">=</span>task<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> mutex<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        p<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><ul>
+<li>运行条件：单线程下实现并发，在同一线程内遇到某部分遭遇 I/O 阻塞时，运行其他部分的程序。（用户态上下文切换系统）</li>
+<li>缺点：协程的本质是单线程，可以实现并发，但不能实现并行</li>
+<li>多核 CPU 利用方案：多线程（ CPU 利用）+ 多线程 + 多协程</li>
+</ul>
+<h4 id="greenlet-gevent-创建协程"><a href="#greenlet-gevent-创建协程" class="headerlink" title="greenlet, gevent 创建协程"></a>greenlet, gevent 创建协程</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># gevent 是一个基于 greenlet 构建的高并发网络框架</span>
+<span class="token keyword">from</span> greenlet <span class="token keyword">import</span> greenlet
+
+<span class="token keyword">def</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    gr2<span class="token punctuation">.</span>switch<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    gr2<span class="token punctuation">.</span>switch<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    gr1<span class="token punctuation">.</span>switch<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+
+gr1 <span class="token operator">=</span> greenlet<span class="token punctuation">(</span>func1<span class="token punctuation">)</span>
+gr2 <span class="token operator">=</span> greenlet<span class="token punctuation">(</span>func2<span class="token punctuation">)</span>
+
+gr1<span class="token punctuation">.</span>switch<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h4 id="yield-关键字创建协程"><a href="#yield-关键字创建协程" class="headerlink" title="yield 关键字创建协程"></a>yield 关键字创建协程</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">yield</span> <span class="token number">1</span>
+    <span class="token keyword">yield</span> <span class="token keyword">from</span> func2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">yield</span> <span class="token number">2</span>
+
+<span class="token keyword">def</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">yield</span> <span class="token number">3</span>
+    <span class="token keyword">yield</span> <span class="token number">4</span>
+
+f1 <span class="token operator">=</span> func1<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> item <span class="token keyword">in</span> f1<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h4 id="asyncio-装饰器"><a href="#asyncio-装饰器" class="headerlink" title="asyncio 装饰器"></a>asyncio 装饰器</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> asyncio
+
+<span class="token decorator annotation punctuation">@asyncio<span class="token punctuation">.</span>coroutine</span>
+<span class="token keyword">def</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">yield</span> <span class="token keyword">from</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@asyncio<span class="token punctuation">.</span>coroutine</span>
+<span class="token keyword">def</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">yield</span> <span class="token keyword">from</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+
+tasks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    asyncio<span class="token punctuation">.</span>ensure_future<span class="token punctuation">(</span> func1<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+    asyncio<span class="token punctuation">.</span>ensure_future<span class="token punctuation">(</span> func2<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+loop<span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>tasks<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h4 id="async-await-关键字-目前推荐使用"><a href="#async-await-关键字-目前推荐使用" class="headerlink" title="async, await 关键字(目前推荐使用)"></a>async, await 关键字(目前推荐使用)</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> asyncio
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> 
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+
+tasks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    asyncio<span class="token punctuation">.</span>ensure_future<span class="token punctuation">(</span> func1<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+    asyncio<span class="token punctuation">.</span>ensure_future<span class="token punctuation">(</span> func2<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+loop<span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>tasks<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> asyncio
+
+<span class="token comment"># await 后只能接可等待对象（协程对象，Future, Task 对象）</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">others</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"strat"</span><span class="token punctuation">)</span>
+    <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"end"</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">"res"</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"run inner function"</span><span class="token punctuation">)</span>
+
+    response1 <span class="token operator">=</span> <span class="token keyword">await</span> others<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"first result"</span><span class="token punctuation">)</span>
+
+    response2 <span class="token operator">=</span> <span class="token keyword">await</span> others<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"second result"</span><span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># task 帮助开发者在事件循环中添加多个任务</span>
+<span class="token comment"># 第一种方式</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"main 开始"</span><span class="token punctuation">)</span>
+
+    task_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+        asyncio<span class="token punctuation">.</span>create_task<span class="token punctuation">(</span>func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> name<span class="token operator">=</span>func1<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        asyncio<span class="token punctuation">.</span>create_task<span class="token punctuation">(</span>func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> name<span class="token operator">=</span>func1<span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"main 结束"</span><span class="token punctuation">)</span>
+
+    done<span class="token punctuation">,</span> pending <span class="token operator">=</span> <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>task_list<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span>
+
+<span class="token comment"># 第二种方式</span>
+
+task_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+    func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    func<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+done<span class="token punctuation">,</span> pending <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>task_list<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span> main<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+
+<span class="token comment"># future 对象</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">set_after</span><span class="token punctuation">(</span>fut<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    fut<span class="token punctuation">.</span>set_result<span class="token punctuation">(</span><span class="token string">"666"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_running_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    fut <span class="token operator">=</span> loop<span class="token punctuation">.</span>create_future<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">await</span> loop<span class="token punctuation">.</span>create_task<span class="token punctuation">(</span>set_after<span class="token punctuation">(</span>fut<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    data <span class="token operator">=</span> <span class="token keyword">await</span> fut
+    <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>main<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># concurrent.futures.Future 对象</span>
+<span class="token keyword">import</span> time 
+<span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures <span class="token keyword">import</span> Future
+<span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures<span class="token punctuation">.</span>thread <span class="token keyword">import</span> ThreadPoolExecutor
+<span class="token keyword">from</span> concurrent<span class="token punctuation">.</span>futures<span class="token punctuation">.</span>process <span class="token keyword">import</span> ProcessPoolExecutor
+
+<span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">"123"</span>
+
+pool <span class="token operator">=</span> ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    fut <span class="token operator">=</span> pool<span class="token punctuation">.</span>submit<span class="token punctuation">(</span>func<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>fut<span class="token punctuation">)</span>
+
+<span class="token comment"># asyncio 与 concurrent 混用：将同步 io 转换成 异步可等待 io </span>
+
+<span class="token comment"># 三种不同方式</span>
+<span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> concurrent<span class="token punctuation">.</span>futures
+
+<span class="token keyword">def</span> <span class="token function">blocking_io</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># File operations (such as logging) can block the</span>
+    <span class="token comment"># event loop: run them in a thread pool.</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'/dev/urandom'</span><span class="token punctuation">,</span> <span class="token string">'rb'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">cpu_bound</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># CPU-bound operations will block the event loop:</span>
+    <span class="token comment"># in general it is preferable to run them in a</span>
+    <span class="token comment"># process pool.</span>
+    <span class="token keyword">return</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>i <span class="token operator">*</span> i <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">**</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_running_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment">## Options:</span>
+
+    <span class="token comment"># 1. Run in the default loop's executor:</span>
+    result <span class="token operator">=</span> <span class="token keyword">await</span> loop<span class="token punctuation">.</span>run_in_executor<span class="token punctuation">(</span>
+        <span class="token boolean">None</span><span class="token punctuation">,</span> blocking_io<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'default thread pool'</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+    <span class="token comment"># 2. Run in a custom thread pool:</span>
+    <span class="token keyword">with</span> concurrent<span class="token punctuation">.</span>futures<span class="token punctuation">.</span>ThreadPoolExecutor<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> pool<span class="token punctuation">:</span>
+        result <span class="token operator">=</span> <span class="token keyword">await</span> loop<span class="token punctuation">.</span>run_in_executor<span class="token punctuation">(</span>
+            pool<span class="token punctuation">,</span> blocking_io<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'custom thread pool'</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+    <span class="token comment"># 3. Run in a custom process pool:</span>
+    <span class="token keyword">with</span> concurrent<span class="token punctuation">.</span>futures<span class="token punctuation">.</span>ProcessPoolExecutor<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> pool<span class="token punctuation">:</span>
+        result <span class="token operator">=</span> <span class="token keyword">await</span> loop<span class="token punctuation">.</span>run_in_executor<span class="token punctuation">(</span>
+            pool<span class="token punctuation">,</span> cpu_bound<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'custom process pool'</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>main<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 实战实例</span>
+
+<span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> requests
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">download_image</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"start download:</span><span class="token interpolation"><span class="token punctuation">&#123;</span>url<span class="token punctuation">:</span><span class="token format-spec"> s</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment"># requests 不支持异步操作，因此使用线程池配合实现</span>
+    future <span class="token operator">=</span> loop<span class="token punctuation">.</span>run_in_executor<span class="token punctuation">(</span><span class="token boolean">None</span><span class="token punctuation">,</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">,</span> url<span class="token punctuation">)</span>
+
+    response <span class="token operator">=</span> <span class="token keyword">await</span> future
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"end download"</span><span class="token punctuation">)</span>
+    file_name <span class="token operator">=</span> url<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"_"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>file_name<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> file_object<span class="token punctuation">:</span>
+        file_object<span class="token punctuation">.</span>write<span class="token punctuation">(</span>response<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    url_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token string">"https://tse4-mm.cn.bing.net/th/id/OIP-C.L9oad19e_zRgp56GafIGsQHaEN?w=312&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;dpr=2&amp;pid=1.7"</span><span class="token punctuation">,</span>
+        <span class="token string">"https://tse2-mm.cn.bing.net/th/id/OIP-C.W6qFu8mmevEiZPfCJWm7EAHaEQ?w=269&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;dpr=2&amp;pid=1.7"</span>
+    <span class="token punctuation">]</span>
+    tasks <span class="token operator">=</span> <span class="token punctuation">[</span>download_image<span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token keyword">for</span> url <span class="token keyword">in</span> url_list<span class="token punctuation">]</span>
+    loop <span class="token operator">=</span> asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    loop<span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>tasks<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="异步迭代器和异步可迭代方法"><a href="#异步迭代器和异步可迭代方法" class="headerlink" title="异步迭代器和异步可迭代方法"></a>异步迭代器和异步可迭代方法</h2><ul>
+<li>实现了 <strong>aiter</strong> 和 <strong>anext</strong> 方法的对象</li>
+</ul>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> asyncio
+
+<span class="token keyword">class</span> <span class="token class-name">Reader</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>count <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">readline</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>count <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>count <span class="token operator">==</span> <span class="token number">100</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">None</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>count
+
+    <span class="token keyword">def</span> <span class="token function">_aiter__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self
+
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">__anext__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        val <span class="token operator">=</span> <span class="token keyword">await</span> self<span class="token punctuation">.</span>readline<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> val <span class="token operator">==</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> StopAsyncIteration
+        <span class="token keyword">return</span> val
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    obj <span class="token operator">=</span> Reader<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">async</span> <span class="token keyword">for</span> item <span class="token keyword">in</span> obj<span class="token punctuation">:</span> <span class="token comment"># async for 必须嵌套在协程函数内部</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="异步上下文管理器"><a href="#异步上下文管理器" class="headerlink" title="异步上下文管理器"></a>异步上下文管理器</h2><ul>
+<li>定义了 <strong>aenter</strong>() 和 <strong>aexit</strong>() 方法的 async with 关键字<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">AsyncContextManager</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>conn <span class="token operator">=</span> conn
+
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">do_something</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">"666"</span>
+
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">__aenter__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>conn <span class="token operator">=</span> <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> self
+
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">__aexit__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">with</span> AsyncContextManager<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span> <span class="token comment"># 必须嵌套在协程函数内部</span>
+        result <span class="token operator">=</span> <span class="token keyword">await</span> f<span class="token punctuation">.</span>do_something<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>func<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></li>
+</ul>
+<h2 id="uvloop"><a href="#uvloop" class="headerlink" title="uvloop"></a>uvloop</h2><ul>
+<li>asyncio 的替代品，由第三方维护，性能高于 asyncio, 性能据说可以达到 go 语言</li>
+</ul>
+<div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># pip install uvloop</span>
+<span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> uvloop
+
+asyncio<span class="token punctuation">.</span>set_event_loop_policy<span class="token punctuation">(</span>uvloop<span class="token punctuation">.</span>EventLoopPolicy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 编写 asyncio 的代码，与之前写的代码一致</span>
+
+<span class="token comment"># 内部的事件循环自动化变为 uvloop</span>
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+```  
+
+<span class="token comment">## 异步操作数据库</span>
+
+```python
+<span class="token comment"># 数据库链接、操作、断开都是 I/O 操作</span>
+<span class="token comment"># pip install aiomysql</span>
+<span class="token comment"># pip install aioredis</span>
+<span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> aiomysql
+<span class="token keyword">import</span> aioredis
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">execute_redis</span><span class="token punctuation">(</span>address<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"start redis"</span><span class="token punctuation">,</span> address<span class="token punctuation">)</span>
+
+    redis <span class="token operator">=</span> <span class="token keyword">await</span> aioredis<span class="token punctuation">.</span>create_redis<span class="token punctuation">(</span>address<span class="token punctuation">,</span> password<span class="token operator">=</span>passowrd<span class="token punctuation">)</span>
+    <span class="token keyword">await</span> redis<span class="token punctuation">.</span>hmset_dict<span class="token punctuation">(</span><span class="token string">"car"</span><span class="token punctuation">,</span> key1<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> key2<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> key3<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token keyword">await</span> redis<span class="token punctuation">.</span>hgetall<span class="token punctuation">(</span><span class="token string">"car"</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+
+    redis<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">await</span> redis<span class="token punctuation">.</span>wait_closed<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"end redis"</span><span class="token punctuation">,</span> address<span class="token punctuation">)</span>
+
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">exexcute_mysql</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"start mysql"</span><span class="token punctuation">,</span> host<span class="token punctuation">)</span>
+
+    conn <span class="token operator">=</span> <span class="token keyword">await</span> aiomysql<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>host<span class="token operator">=</span>host<span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">3306</span><span class="token punctuation">,</span> user<span class="token operator">=</span><span class="token string">"root"</span><span class="token punctuation">,</span> password<span class="token operator">=</span>password<span class="token punctuation">,</span> db<span class="token operator">=</span><span class="token string">"mysql"</span><span class="token punctuation">)</span>
+
+    cur <span class="token operator">=</span> <span class="token keyword">await</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">await</span> cur<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">"SELECT Host, User FROM user"</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token keyword">await</span> cur<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">await</span> cur<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+task_list <span class="token operator">=</span> <span class="token punctuation">[</span>
+    execute_redis<span class="token punctuation">(</span><span class="token string">"redis://127.0.0.1:6379"</span><span class="token punctuation">,</span> <span class="token string">"root123456"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    execute_mysql<span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token string">"root123456"</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+asyncio<span class="token punctuation">.</span>run<span class="token punctuation">(</span>asyncio<span class="token punctuation">.</span>wait<span class="token punctuation">(</span>task_list<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="FastApi-框架"><a href="#FastApi-框架" class="headerlink" title="FastApi 框架"></a>FastApi 框架</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> asyncio
+<span class="token keyword">import</span> uvicorn
+<span class="token keyword">import</span> aioredis
+<span class="token keyword">from</span> fastapi <span class="token keyword">import</span> FastAPI
+
+app <span class="token operator">=</span> FastAPI<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"Hello World"</span><span class="token punctuation">&#125;</span>
+
+
+REDIS_POOL <span class="token operator">=</span> aioredis<span class="token punctuation">.</span>ConnectionPool<span class="token punctuation">(</span><span class="token string">"redis://127.0.0.1:6379"</span><span class="token punctuation">,</span> password<span class="token operator">=</span><span class="token string">"root123"</span><span class="token punctuation">,</span> minsize<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> maxsize<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">"/red"</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">red</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"request accpeted"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+
+    conn <span class="token operator">=</span> <span class="token keyword">await</span> REDIS_POOL<span class="token punctuation">.</span>acquire<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    redis<span class="token punctuation">.</span>Redis<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+
+    <span class="token keyword">await</span> redis<span class="token punctuation">.</span>hmset_dict<span class="token punctuation">(</span><span class="token string">"car"</span><span class="token punctuation">,</span> key1<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> key2<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> key3<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token keyword">await</span> redis<span class="token punctuation">.</span>hgetall<span class="token punctuation">(</span><span class="token string">"car"</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+
+    REDIS_POOL<span class="token punctuation">.</span>release<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> result 
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    uvicorn<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"main:app"</span><span class="token punctuation">,</span> host<span class="token operator">=</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">,</span> log_level<span class="token operator">=</span><span class="token string">"info"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/08/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">内存管理</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/07/%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/">
+                        <span class="hidden-mobile">Python 一些骚操作</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SHbJRvB3vfoJ6XMOl24RFvBv-gzGzoHsz","appKey":"Nv32LDbptxJUoAzAgkbLj4xg","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span style="font-size:18px"> Two roads diverged in a wood, and I took the one less traveled by. </span> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+    
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
