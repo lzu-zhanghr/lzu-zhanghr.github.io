@@ -16,21 +16,20 @@
   <meta name="author" content="zhanghr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Python 语言压力测试工具">
+    <meta name="description" content="常见数据模型 层次模型：有且只有一个节点无双亲节点（树） 网状模型：一个节点可以有多于一个的双亲节点（图） 关系模型：二维表表示实体及实体关系间联系（表格） 关系：一个关系对应一张二维表，二维表名就是关系名 元组：表中的一行称为一个元祖，也称为记录 属性：表中的一列称为一个属性，也称为字段。列的值称为属性值，取值范围称为域 分量：每一条记录对应的一个属性，称为字段 关系模式：对关系（表）的描述（各">
 <meta property="og:type" content="article">
-<meta property="og:title" content="locust库">
-<meta property="og:url" content="http://example.com/2022/03/13/locust%E5%BA%93/index.html">
+<meta property="og:title" content="数据库基础">
+<meta property="og:url" content="http://example.com/2022/03/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Zhanghr&#39;s blog">
-<meta property="og:description" content="Python 语言压力测试工具">
+<meta property="og:description" content="常见数据模型 层次模型：有且只有一个节点无双亲节点（树） 网状模型：一个节点可以有多于一个的双亲节点（图） 关系模型：二维表表示实体及实体关系间联系（表格） 关系：一个关系对应一张二维表，二维表名就是关系名 元组：表中的一行称为一个元祖，也称为记录 属性：表中的一列称为一个属性，也称为字段。列的值称为属性值，取值范围称为域 分量：每一条记录对应的一个属性，称为字段 关系模式：对关系（表）的描述（各">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-03-13T01:06:01.000Z">
-<meta property="article:modified_time" content="2022-03-13T01:09:49.239Z">
+<meta property="article:published_time" content="2022-03-15T02:18:21.000Z">
+<meta property="article:modified_time" content="2022-03-15T08:22:16.376Z">
 <meta property="article:author" content="zhanghr">
-<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>locust库 - Zhanghr&#39;s blog</title>
+  <title>数据库基础 - Zhanghr&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -184,7 +183,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="locust库">
+            <span class="h2" id="subtitle" title="数据库基础">
               
             </span>
 
@@ -199,8 +198,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-13 09:06" pubdate>
-        March 13, 2022 am
+      <time datetime="2022-03-15 10:18" pubdate>
+        March 15, 2022 am
       </time>
     </span>
   
@@ -210,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      18 字
+      524 字
     </span>
   
 
@@ -219,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      5 分钟
     </span>
   
 
@@ -256,29 +255,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">locust库</h1>
+            <h1 style="display: none">数据库基础</h1>
             
             <div class="markdown-body">
-              <h1 id="Python-压力测试-Locust-库"><a href="#Python-压力测试-Locust-库" class="headerlink" title="Python 压力测试: Locust 库"></a>Python 压力测试: Locust 库</h1>
+              <h2 id="常见数据模型"><a href="#常见数据模型" class="headerlink" title="常见数据模型"></a>常见数据模型</h2><ul>
+<li>层次模型：有且只有一个节点无双亲节点（树）</li>
+<li>网状模型：一个节点可以有多于一个的双亲节点（图）</li>
+<li>关系模型：二维表表示实体及实体关系间联系（表格）<ul>
+<li>关系：一个关系对应一张二维表，二维表名就是关系名</li>
+<li>元组：表中的一行称为一个元祖，也称为记录</li>
+<li>属性：表中的一列称为一个属性，也称为字段。列的值称为属性值，取值范围称为域</li>
+<li>分量：每一条记录对应的一个属性，称为字段</li>
+<li>关系模式：对关系（表）的描述（各个属性名）称为关系模式</li>
+<li>主键（码）：一个关系（表）中指定的用以唯一标识各个元组的属性</li>
+<li>候选键（码）：在一个关系（表）中可以唯一标识各个元组的属性（不一定是一个属性）</li>
+<li>（非）主属性：可以作为候选键（唯一标识一个元组）的属性称为主属性</li>
+<li>优点：数据结构单一，关系规范化，概念简单</li>
+<li>缺点：查询效率低</li>
+</ul>
+</li>
+<li>面向对象模型：没有准确的定义，适合处理丰富的数据类型，提高了数据访问性能</li>
+</ul>
+<h2 id="关系数据库的规范化"><a href="#关系数据库的规范化" class="headerlink" title="关系数据库的规范化"></a>关系数据库的规范化</h2><p>  范式：某个级别关系模式的集合<br>  第一范式：关系模式设计中最基本的要求，要求关系模式中<strong>所有的属性不可分解</strong><br>  第二范式：满足第一范式的基础上，并且该关系模式中所有的非主属性完全依赖于主键（完全对应），若不依赖，需要拆分建表<br>  第三范式：满足第二范式的基础上，要求关系模式中的每个非主属性都不直接、间接依赖于主键</p>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/">实用工具</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
-                    
-                  </div>
                 
               </div>
               
@@ -293,9 +297,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/">
+                      <a href="/2022/03/22/redis-ai/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">数据库基础</span>
+                        <span class="hidden-mobile">redis-ai</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -303,8 +307,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/10/mysql/">
-                        <span class="hidden-mobile">mysql</span>
+                      <a href="/2022/03/13/locust%E5%BA%93/">
+                        <span class="hidden-mobile">locust库</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
