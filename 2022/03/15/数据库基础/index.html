@@ -24,7 +24,7 @@
 <meta property="og:description" content="常见数据模型 层次模型：有且只有一个节点无双亲节点（树） 网状模型：一个节点可以有多于一个的双亲节点（图） 关系模型：二维表表示实体及实体关系间联系（表格） 关系：一个关系对应一张二维表，二维表名就是关系名 元组：表中的一行称为一个元祖，也称为记录 属性：表中的一列称为一个属性，也称为字段。列的值称为属性值，取值范围称为域 分量：每一条记录对应的一个属性，称为字段 关系模式：对关系（表）的描述（各">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-03-15T02:18:21.000Z">
-<meta property="article:modified_time" content="2022-03-15T08:22:16.376Z">
+<meta property="article:modified_time" content="2022-03-25T09:21:26.783Z">
 <meta property="article:author" content="zhanghr">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -209,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      524 字
+      613 字
     </span>
   
 
@@ -218,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      6 分钟
     </span>
   
 
@@ -277,6 +277,11 @@
 <li>面向对象模型：没有准确的定义，适合处理丰富的数据类型，提高了数据访问性能</li>
 </ul>
 <h2 id="关系数据库的规范化"><a href="#关系数据库的规范化" class="headerlink" title="关系数据库的规范化"></a>关系数据库的规范化</h2><p>  范式：某个级别关系模式的集合<br>  第一范式：关系模式设计中最基本的要求，要求关系模式中<strong>所有的属性不可分解</strong><br>  第二范式：满足第一范式的基础上，并且该关系模式中所有的非主属性完全依赖于主键（完全对应），若不依赖，需要拆分建表<br>  第三范式：满足第二范式的基础上，要求关系模式中的每个非主属性都不直接、间接依赖于主键</p>
+<h2 id="数据表关系"><a href="#数据表关系" class="headerlink" title="数据表关系"></a>数据表关系</h2><ul>
+<li>单表：一张表就可以保存所有信息</li>
+<li>一对多：需要两张表存储信息，且两张表存在一对多，多对一关系。</li>
+<li>多对多：需要三张表存储信息，两张单表+关系表，创造出两个单表之间的多对多关系。</li>
+</ul>
 
             </div>
             <hr>
