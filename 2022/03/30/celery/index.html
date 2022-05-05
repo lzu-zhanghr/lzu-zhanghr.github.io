@@ -16,21 +16,21 @@
   <meta name="author" content="zhanghr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Python 常见异常处理">
+    <meta name="description" content="Python 异步实现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="异常处理">
-<meta property="og:url" content="http://example.com/2022/03/08/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
+<meta property="og:title" content="celery">
+<meta property="og:url" content="http://example.com/2022/03/30/celery/index.html">
 <meta property="og:site_name" content="Zhanghr&#39;s blog">
-<meta property="og:description" content="Python 常见异常处理">
+<meta property="og:description" content="Python 异步实现">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-03-08T01:50:08.000Z">
-<meta property="article:modified_time" content="2022-05-05T01:11:11.783Z">
+<meta property="article:published_time" content="2022-03-30T02:12:27.000Z">
+<meta property="article:modified_time" content="2022-05-05T01:12:05.549Z">
 <meta property="article:author" content="zhanghr">
-<meta property="article:tag" content="python">
+<meta property="article:tag" content="celery python">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>异常处理 - Zhanghr&#39;s blog</title>
+  <title>celery - Zhanghr&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -184,7 +184,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="异常处理">
+            <span class="h2" id="subtitle" title="celery">
               
             </span>
 
@@ -199,8 +199,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-08 09:50" pubdate>
-        March 8, 2022 am
+      <time datetime="2022-03-30 10:12" pubdate>
+        March 30, 2022 am
       </time>
     </span>
   
@@ -210,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      843 字
+      1.2k 字
     </span>
   
 
@@ -219,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      10 分钟
     </span>
   
 
@@ -256,58 +256,89 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">异常处理</h1>
+            <h1 style="display: none">celery</h1>
             
             <div class="markdown-body">
-              <h2 id="try-except-else"><a href="#try-except-else" class="headerlink" title="try, except, else"></a>try, except, else</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">try</span><span class="token punctuation">:</span>
-    f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_file"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
-    f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"test error case"</span><span class="token punctuation">)</span>
-<span class="token keyword">except</span> IOError<span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"file not found"</span><span class="token punctuation">)</span>
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"successfully write file"</span><span class="token punctuation">)</span>
-    f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+              <h1 id="Celery-异步组件"><a href="#Celery-异步组件" class="headerlink" title="Celery 异步组件"></a>Celery 异步组件</h1><h2 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务"></a>异步任务</h2><h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># producer.py</span>
+<span class="token keyword">from</span> celery<span class="token punctuation">.</span>result <span class="token keyword">import</span> AsyncResult
+<span class="token keyword">import</span> celery
+<span class="token keyword">import</span> time
 
-<h2 id="try-finally"><a href="#try-finally" class="headerlink" title="try, finally"></a>try, finally</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">try</span><span class="token punctuation">:</span>
-    f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_file"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
-    <span class="token keyword">try</span><span class="token punctuation">:</span>
-        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"test error case"</span><span class="token punctuation">)</span>
-    <span class="token keyword">finally</span><span class="token punctuation">:</span>
-        f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">except</span> IOError<span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"file not found"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 
-<h2 id="自定义异常与抛出"><a href="#自定义异常与抛出" class="headerlink" title="自定义异常与抛出"></a>自定义异常与抛出</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> Exception
+backend <span class="token operator">=</span> <span class="token string">"redis://localhost:6379/1"</span>
+broker <span class="token operator">=</span> <span class="token string">"redis://localhost:6379/2"</span>
 
-<span class="token keyword">class</span> <span class="token class-name">GenderException</span><span class="token punctuation">(</span>Exception<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> <span class="token operator">*</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
-        self<span class="token punctuation">.</span>args <span class="token operator">=</span> arg
 
-gender <span class="token operator">=</span><span class="token string">"male-female"</span>
-<span class="token keyword">if</span> gender <span class="token operator">!=</span> <span class="token string">"male"</span> <span class="token keyword">and</span> gender <span class="token operator">!=</span><span class="token string">"female"</span><span class="token punctuation">:</span>
-    <span class="token keyword">raise</span> GenderException<span class="token punctuation">(</span><span class="token string">"only male and female"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+cel <span class="token operator">=</span> celery<span class="token punctuation">.</span>Celery<span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">,</span> backend <span class="token operator">=</span> backend<span class="token punctuation">,</span> broker <span class="token operator">=</span> broker<span class="token punctuation">)</span>
 
-<h2 id="自定义模块"><a href="#自定义模块" class="headerlink" title="自定义模块"></a>自定义模块</h2><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> my_module <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 默认会导入全部，但有时候需要进行权限管理</span>
+<span class="token decorator annotation punctuation">@cel<span class="token punctuation">.</span>task</span>
+<span class="token keyword">def</span> <span class="token function">send_email</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
 
-__all__ <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"module1"</span><span class="token punctuation">,</span> <span class="token string">"module2"</span><span class="token punctuation">]</span> <span class="token comment"># 重新进行导入时，只会导入 module1, module2</span>
+<span class="token decorator annotation punctuation">@cel<span class="token punctuation">.</span>task</span>
+<span class="token keyword">def</span> <span class="token function">send_msg</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>  
 
-<span class="token keyword">from</span> <span class="token punctuation">.</span>moudle <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 从当前包中的 module 模块导入全部</span>
 
-<span class="token comment"># 自定义模块，切换项目之后无法找到模块文件，解决方法</span>
-<span class="token comment"># 1.将模块所在路径加入解释器路径中，不建议使用</span>
-<span class="token keyword">try</span><span class="token punctuation">:</span>
-    <span class="token keyword">import</span> my_package<span class="token punctuation">.</span>my_module <span class="token keyword">as</span> module
-<span class="token keyword">except</span><span class="token punctuation">:</span>
-    <span class="token keyword">import</span> sys
-    sys<span class="token punctuation">.</span>path<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">".path/to/my_package"</span><span class="token punctuation">)</span>
-    <span class="token keyword">import</span> my_package<span class="token punctuation">.</span>my_module <span class="token keyword">as</span> module
-<span class="token comment"># 2.将自定义模块，发布到系统目录</span>
-    <span class="token comment"># 1) 确定发布的模块的目录结构</span>
-    <span class="token comment"># 2) setup 编辑工作</span>
-    <span class="token comment"># 3) 构建模块</span>
-    <span class="token comment"># 4) 发布模块</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+async_result <span class="token operator">=</span>  AsyncResult<span class="token punctuation">(</span><span class="token builtin">id</span> <span class="token operator">=</span> email_result<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span> app<span class="token operator">=</span>cel<span class="token punctuation">)</span>
+<span class="token keyword">if</span> async_result<span class="token punctuation">.</span>successful<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> async_result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+
+<span class="token comment"># consumer.py</span>
+
+<span class="token keyword">from</span> producer <span class="token keyword">import</span> send_email<span class="token punctuation">,</span> send_msg
+
+
+email_result <span class="token operator">=</span> send_email<span class="token punctuation">.</span>delay<span class="token punctuation">(</span><span class="token string">"yuan"</span><span class="token punctuation">)</span>
+msg_result <span class="token operator">=</span> send_msg<span class="token punctuation">.</span>delay<span class="token punctuation">(</span><span class="token string">"yuan"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h4 id="多任务调度"><a href="#多任务调度" class="headerlink" title="多任务调度"></a>多任务调度</h4><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># celery_tasks.celery.py</span>
+<span class="token keyword">from</span> celery <span class="token keyword">import</span> Celery
+
+
+cel <span class="token operator">=</span> Celery<span class="token punctuation">(</span>
+    <span class="token string">"celery-demo"</span><span class="token punctuation">,</span>
+    broker <span class="token operator">=</span> <span class="token string">"redis://localhost:6379/1"</span><span class="token punctuation">,</span>
+    backend <span class="token operator">=</span> <span class="token string">"redis://localhost:6379/2"</span><span class="token punctuation">,</span>
+    include <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token string">"celery_tasks.task1"</span><span class="token punctuation">,</span>
+        <span class="token string">"celery_tasks.task1"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># celery_tasks.task1.py</span>
+<span class="token keyword">import</span> time 
+<span class="token keyword">from</span> celery_tasks<span class="token punctuation">.</span>celery <span class="token keyword">import</span> cel
+
+
+<span class="token decorator annotation punctuation">@cel<span class="token punctuation">.</span>task</span>
+<span class="token keyword">def</span> <span class="token function">send_msg</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">"msg_ok"</span>
+
+<span class="token comment"># celery_tasks.task2.py</span>
+<span class="token keyword">import</span> time 
+<span class="token keyword">from</span> celery_tasks<span class="token punctuation">.</span>celery <span class="token keyword">import</span> cel
+
+
+<span class="token decorator annotation punctuation">@cel<span class="token punctuation">.</span>task</span>
+<span class="token keyword">def</span> <span class="token function">send_email</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">"email_ok"</span>
+
+<span class="token comment"># result.py</span>
+<span class="token keyword">from</span> celery<span class="token punctuation">.</span>result <span class="token keyword">import</span> AsyncResult
+<span class="token keyword">from</span> celery_tasks<span class="token punctuation">.</span>celery <span class="token keyword">import</span> cel
+
+
+async_result <span class="token operator">=</span>  AsyncResult<span class="token punctuation">(</span><span class="token builtin">id</span> <span class="token operator">=</span> email_result<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span> app<span class="token operator">=</span>cel<span class="token punctuation">)</span>
+<span class="token keyword">if</span> async_result<span class="token punctuation">.</span>successful<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> async_result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2>
             </div>
             <hr>
             <div>
@@ -324,7 +355,7 @@ __all__ <span class="token operator">=</span> <span class="token punctuation">[<
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/python/">python</a>
+                      <a class="hover-with-bg" href="/tags/celery-python/">celery python</a>
                     
                   </div>
                 
@@ -341,9 +372,9 @@ __all__ <span class="token operator">=</span> <span class="token punctuation">[<
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/10/mysql/">
+                      <a href="/2022/04/02/Cli%E7%BC%96%E7%A8%8B/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">mysql</span>
+                        <span class="hidden-mobile">Python Cli编程</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -351,8 +382,8 @@ __all__ <span class="token operator">=</span> <span class="token punctuation">[<
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/07/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
-                        <span class="hidden-mobile">并发编程</span>
+                      <a href="/2022/03/22/redis/">
+                        <span class="hidden-mobile">redis</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

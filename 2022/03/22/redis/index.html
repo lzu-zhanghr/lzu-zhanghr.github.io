@@ -16,20 +16,21 @@
   <meta name="author" content="zhanghr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Python 高效编程bisect用于有序数列的插入和排序">
+    <meta name="description" content="redis 基本知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高效编程">
-<meta property="og:url" content="http://example.com/2022/03/04/%E9%AB%98%E6%95%88%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:title" content="redis">
+<meta property="og:url" content="http://example.com/2022/03/22/redis/index.html">
 <meta property="og:site_name" content="Zhanghr&#39;s blog">
-<meta property="og:description" content="Python 高效编程bisect用于有序数列的插入和排序">
+<meta property="og:description" content="redis 基本知识">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-03-04T13:07:15.000Z">
-<meta property="article:modified_time" content="2022-03-07T04:03:14.338Z">
+<meta property="article:published_time" content="2022-03-22T09:19:47.000Z">
+<meta property="article:modified_time" content="2022-05-05T01:15:00.972Z">
 <meta property="article:author" content="zhanghr">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>高效编程 - Zhanghr&#39;s blog</title>
+  <title>redis - Zhanghr&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -183,7 +184,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="高效编程">
+            <span class="h2" id="subtitle" title="redis">
               
             </span>
 
@@ -198,8 +199,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-04 21:07" pubdate>
-        March 4, 2022 pm
+      <time datetime="2022-03-22 17:19" pubdate>
+        March 22, 2022 pm
       </time>
     </span>
   
@@ -209,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      28 字
+      168 字
     </span>
   
 
@@ -218,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      2 分钟
     </span>
   
 
@@ -255,16 +256,38 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">高效编程</h1>
+            <h1 style="display: none">redis</h1>
             
             <div class="markdown-body">
-              <h1 id="Python-高效编程"><a href="#Python-高效编程" class="headerlink" title="Python 高效编程"></a>Python 高效编程</h1><h2 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h2><p>用于有序数列的插入和排序</p>
-
+              <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">set</span> key_name value_data nx ex
+<span class="token comment">-- nx: not exist</span>
+<span class="token comment">-- ex: expire time</span>
+<span class="token comment">-- 设置指定 key 的值。</span>
+get key_name
+<span class="token comment">-- 获取指定 key 的值。</span>
+strlen key_name
+<span class="token comment">-- 返回 key 所储存的字符串值的长度</span>
+getrange key_name <span class="token keyword">start</span> <span class="token keyword">end</span>
+<span class="token comment">-- 返回 key 中字符串值的子字符</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1/">数据服务</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/redis/">redis</a>
+                    
+                  </div>
                 
               </div>
               
@@ -279,9 +302,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/07/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                      <a href="/2022/03/30/celery/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">并发编程</span>
+                        <span class="hidden-mobile">celery</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -289,8 +312,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/04/%E6%97%B6%E7%A9%BA%E6%B5%8B%E8%AF%95/">
-                        <span class="hidden-mobile">时空测试</span>
+                      <a href="/2022/03/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">数据库基础</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
